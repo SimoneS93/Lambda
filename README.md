@@ -25,12 +25,12 @@ The `make` method accepts definitions in the format `arguments => body`, borrowe
 So, for example, the following
 
 ```php
-$identity = $lambda->make('$x => $x')
+$increment = new Lambda('$x => $x + 1');
 ```
 will translate in something like:
 
 ```php
-$identity = function($x) { return $x; };
+$identity = function($x) { return ($x + 1); };
 ```
 
 Multiple arguments are allowed and complex expressions can be used as the body.
@@ -38,7 +38,15 @@ If the arguments part is not present, the variables `x, y, z` will be automatica
 so the above code could be written as:
 
 ```php
-$lambda->make('$x')
+$increment = new Lmabda('$x + 1');
+
+// or with the lambda helper
+
+$increment = lambda('$x + 1');
+
+// and translates to
+
+$increment = function($x = NULL, $y = NULL, $z = NULL) { return ($x + 1); }
 ```
 
 You're allowed to use as many parameters as wanted and arbitrary complex body definitions, 
