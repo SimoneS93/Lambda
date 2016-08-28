@@ -17,6 +17,9 @@
         "bin-dir": "bin"
     },
     "autoload": {
+        "files": [
+            "src/SimoneS/helpers.php"
+        ],
         "psr-0": {
             "SimoneS": "src/"
         }

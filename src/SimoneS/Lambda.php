@@ -2,7 +2,6 @@
 
 namespace SimoneS;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
 
 use BadMethodCallException;
 use Closure;
@@ -10,6 +9,8 @@ use InvalidArgumentException;
 
 /**
  * Create closures from definition strings
+ * 
+ * @author SimoneS
  */
 class Lambda
 {
@@ -18,9 +19,15 @@ class Lambda
     
     /**
      * 
+     * 
+     * @throws InvalidArgumentException
      */
-    public function __construct() {
+    public function __construct($definition = NULL) {
         $this->closure = null;
+        
+        if ($definition !== NULL) {
+            $this->make($definition);
+        }
     }
     
     public function __invoke($arguments = []) {
@@ -57,7 +64,7 @@ class Lambda
             
             // something went wrong evaluating the code
             if ( ! isset($closure)) {
-                throw new InvalidArgumentException("Bad syntax");
+                throw new InvalidArgumentException("Bad syntax: [[ {$code} ]]");
             }
             
             $this->closure = $closure;
@@ -99,14 +106,18 @@ class Lambda
     private function createCode($arguments, $body)
     {
         return <<<CODE
-            try { 
-                \$closure = function({$arguments}) { 
-                    return ({$body});
-                };
-            }
-            catch (ErrorException \$ex) { 
-                throw \InvalidArgumentException("Bad syntax");
-            }
+            // scope code
+        
+            \$closure = call_user_func(function() {
+                try { 
+                    return function({$arguments}) { 
+                        return ({$body});
+                    };
+                }
+                catch (ErrorException \$ex) { 
+                    throw \InvalidArgumentException("Bad syntax");
+                } 
+            });
 CODE;
     }
 }

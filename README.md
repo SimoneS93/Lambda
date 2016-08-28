@@ -52,8 +52,7 @@ function it_allows_complex_code()
     {
         $this
             ->make(
-                '$int, $string, $array => ' .
-                'strval($int) . strtoupper($string) . $array[0]')
+                '$int, $string, $array => strval($int) . strtoupper($string) . $array[0]')
             ->call([100, ' times ', ['Lambda!']])
             ->shouldBe('100 TIMES Lambda!');
     }

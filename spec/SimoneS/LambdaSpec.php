@@ -7,6 +7,9 @@ use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
 use SimoneS\Lambda;
 
+/**
+ * 
+ */
 class LambdaSpec extends ObjectBehavior
 {
             
@@ -131,5 +134,16 @@ class LambdaSpec extends ObjectBehavior
             ->make('$int, $string, $array => strval($int) . strtoupper($string) . $array[0]')
             ->call([100, ' times ', ['Lambda!']])
             ->shouldBe('100 TIMES Lambda!');
+    }
+    
+    function it_accepts_definition_on_construction()
+    {
+        $argument = 'Lambda';
+        
+        $this->beConstructedWith('$x');
+        
+        $this
+            ->call([$argument])
+            ->shouldBe($argument);
     }
 }
