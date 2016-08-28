@@ -5,8 +5,6 @@ Create closures from definition strings.
 
 ## Install
 
-Install tha package via composer:
-
 ```sh
 composer require simones/lambda
 ```
@@ -14,14 +12,14 @@ composer require simones/lambda
 
 ## How to use
 
-You generate closures passing a definition string to `Lambda::make`: this will return a `Lambda` instance, 
-that you can call directly (it implements the `__invoke` magic method) or via the `call` method, 
-passing an optional array of arguments.
+You generate closures passing a definition string to the `Lambda` constructor or to `Lambda::make`: 
+they will return a `Lambda` instance, that you can call directly (it implements the `__invoke` magic method) 
+or via the `call` method, passing an optional array of arguments.
 
 
 ## Defition strings format
 
-The `make` method accepts definitions in the format `arguments => body`, borrowed from languages like Coffescript. 
+Definitions are in the format `arguments => body`, borrowed from languages like Coffescript. 
 So, for example, the following
 
 ```php
@@ -30,7 +28,7 @@ $increment = new Lambda('$x => $x + 1');
 will translate in something like:
 
 ```php
-$identity = function($x) { return ($x + 1); };
+$increment = function($x) { return ($x + 1); };
 ```
 
 Multiple arguments are allowed and complex expressions can be used as the body.
@@ -59,8 +57,7 @@ Here's a spec case that tests the use with complex code:
 function it_allows_complex_code()
     {
         $this
-            ->make(
-                '$int, $string, $array => strval($int) . strtoupper($string) . $array[0]')
+            ->make('$int, $string, $array => strval($int) . strtoupper($string) . $array[0]')
             ->call([100, ' times ', ['Lambda!']])
             ->shouldBe('100 TIMES Lambda!');
     }
@@ -69,7 +66,7 @@ function it_allows_complex_code()
 
 ## Limits
 
-Keep in mind that, at this stage, no syntax check is done on the code, so you should input only trusted 
+At this stage, no syntax check is done on the code, so you should input only trusted 
 and well-formed definitions.
 It just wraps your code in a function definition, adds minor structure controls and throws exceptions 
 when it can't do its job.
