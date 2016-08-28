@@ -1,0 +1,24 @@
+{
+    "name": "simones/lambda",
+    "description": "Create closures from definition strings.",
+    "authors": [
+        {
+            "name": "Simone Salerno",
+            "email": "salernosimone.uni@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^3.0"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-0": {
+            "SimoneS": "src/"
+        }
+    }
+}
